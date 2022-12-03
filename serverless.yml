@@ -1,0 +1,73 @@
+service: serverless-rimac
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  profile: reto-rimac
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - arn:aws:dynamodb:us-east-1:058154850901:table/Empleado
+
+functions:
+  integPeopleSwapi:
+    handler: src/integration/getPeople.getPeople
+    events:
+      - http:
+          method: get
+          path: /persona/{id}
+  integPlanetSwapi:
+    handler: src/integration/getPlanet.getPlanet
+    events:
+      - http:
+          method: get
+          path: /planeta/{id}
+  crearEmpleado:
+    handler: src/models/empleado/crear.crearEmpleado
+    events:
+      - http:
+          method: post
+          path: /empleado
+  listarEmpleado:
+    handler: src/models/empleado/listar.listarEmpleado
+    events:
+      - http:
+          method: get
+          path: /empleado
+  buscarEmpleado:
+    handler: src/models/empleado/buscar.buscarEmpleado
+    events:
+      - http:
+          method: get
+          path: /empleado/{id}
+  editarEmpleado:
+    handler: src/models/empleado/editar.editarEmpleado
+    events:
+      - http:
+          method: put
+          path: /empleado/{id}
+  eliminarEmpleado:
+    handler: src/models/empleado/eliminar.eliminarEmpleado
+    events:
+      - http:
+          method: delete
+          path: /empleado/{id}          
+
+resources:
+  Resources:    
+    Empleado:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Empleado
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH

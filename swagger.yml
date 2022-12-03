@@ -1,0 +1,158 @@
+openapi: 3.0.3
+info:
+  title: API SERVERLESS AWS RIMAC
+  description: |-
+    API creada en NODE.JS con el framework serverless para despliegue en AWS.
+    - Integra los modelos del API de prueba StarWars API.
+    - Integra base de datos DynamoDB.
+    - Crea tabla Empleado.
+    - Expone APIs para el CRUD de tabla Empleado.
+    - Expone APIs para consultar data de SWAPI.
+  version: 1.0.0
+  contact:
+    email: jorge.muvez@gmail.com
+servers:
+- url: https://m4abt665f1.execute-api.us-east-1.amazonaws.com/dev
+tags:
+- name: Integración
+  description: APIs para visualizar informacion de SWAPI.
+- name: DynamoDB
+  description: APIs para CRUD de tabla Empleado.
+  
+paths:
+  /persona/{id}:
+    get:
+      tags:
+      - Integración
+      summary: Busca la informacion de una persona.
+      responses:
+        200:
+          description: Datos del empleado creado.
+          content:
+            application/json:
+              schema:
+              $ref: '#/components/schemas/EmpleadoBodyPost'
+  /planeta/{id}:
+    get:
+      tags:
+      - Integración
+      summary: Busca la informacion de un planeta.
+      responses:
+        200:
+          description: Datos del empleado creado.
+          content:
+            application/json:
+              schema:
+              $ref: '#/components/schemas/EmpleadoBodyPost'
+  /empleado:
+    get:
+      tags:
+      - DynamoDB
+      summary: Lista a todos los empleados.
+      responses:
+        200:
+          description: (OK) Lista de empleados.
+          content:
+            application/json:
+              schema:
+              $ref: '#/components/responses/ListaEmpleados'
+        400:
+          $ref: '#/components/responses/BadRequest'
+    post:
+      tags:
+      - DynamoDB
+      summary: Crea un registro de Empleado con la información enviada.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmpleadoBodyPost'
+        required: true
+      responses:
+        200:
+          description: (OK) Datos del empleado creado.
+          content:
+            application/json:
+              schema:
+              $ref: '#/components/schemas/EmpleadoBodyPost'
+        400:
+          $ref: '#/components/responses/BadRequest'
+          
+  /empleado/{id}:
+    get:
+      tags:
+      - DynamoDB
+      summary: Busca la informacion de un empleado.
+      responses:
+        200:
+          description: (OK) Datos del empleado encontrado.
+          content:
+            application/json:
+              schema:
+              $ref: '#/components/schemas/EmpleadoBodyPost'
+    put:
+      tags:
+      - DynamoDB
+      summary: Editar empleado con la información enviada.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmpleadoBodyPost'
+        required: true
+      responses:
+        200:
+          description: (OK) Datos actualizados del empleado.
+          content:
+            application/json:
+              schema:
+              $ref: '#/components/schemas/EmpleadoBodyPost'
+        400:
+          $ref: '#/components/responses/BadRequest'
+    delete:
+      tags:
+      - DynamoDB
+      summary: Elimina la informacion de un empleado.
+      responses:
+        200:
+          description: (OK) Datos eliminados del empleado.
+          content:
+            application/json:
+              schema:
+              $ref: '#/components/schemas/EmpleadoBodyPost'          
+      
+      
+components:
+  responses:
+    ListaEmpleados:
+      type: array
+      items:
+        $ref: '#/components/schemas/EmpleadoBodyPost'
+    BadRequest:
+      description: (BadRequest) Datos incorrectos.
+      
+  parameters:
+    id:
+      in: url
+      description: id de persona
+      required: true
+    
+  schemas:
+    EmpleadoBodyPost:
+      type: object
+      properties:
+        id:
+          type: string
+          descripcion: Id de empleado
+        dni:
+          type: string
+          descripcion: Documento de indentidad
+        nombres:
+          type: string
+          descripcion: Nombres y apellidos del empleado
+        profesion:
+          type: string
+          descripcion: Profesion del empleado
+        experiencia:
+          type: string
+          descripcion: Experiencia profesional del empleado
