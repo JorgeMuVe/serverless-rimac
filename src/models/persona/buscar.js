@@ -1,11 +1,16 @@
 const AWS = require('aws-sdk');
 
-const buscarPersona = async (event) => {
+/**
+ * @description Funcion Lambda para buscar Persona
+ * @returns Callback con respuesta
+ */
+const buscarPersonaLambda = async (event, context, callback) => {
     let dynamodb = new AWS.DynamoDB.DocumentClient();
     let { id } = event.pathParameters;
     let result = await dynamodb.get({ TableName: 'Persona', Key: { id } }).promise();
     let persona = result.Item || {};
-    return { statusCode: 200, body: JSON.stringify(persona) };
+    let response = { statusCode: 200, body: JSON.stringify(persona) };
+    callback(null, response);
 }
 
-module.exports = { buscarPersona };
+module.exports = { buscarPersonaLambda };

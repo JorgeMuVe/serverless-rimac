@@ -1,8 +1,13 @@
 const AWS = require('aws-sdk');
 
-const editarEmpleado = async (event) => {
+/**
+ * @description Funcion Lambda para editar Empleado
+ * @returns Callback con respuesta
+ */
+const editarEmpleadoLambda = async (event, context, callback) => {
+    let response = { statusCode: 404, body: JSON.stringify({ mensaje: 'ERROR INTERNO: No se pudo conectar con DYNAMODB' }) };
     try {
-        let dynamodb = new AWS.DynamoDB.DocumentClient();
+        let dynamodb = new AWS.DynamoDB.DocumentClient(); // Conecta con dynamoDB
         let { id } = event.pathParameters;
         const { nombres, profesion, experiencia, dni } = JSON.parse(event.body);
         await dynamodb.update({
@@ -13,17 +18,13 @@ const editarEmpleado = async (event) => {
                 ':nombres': nombres,
                 ':profesion': profesion,
                 ':experiencia': experiencia,
-                ':editado': new Date()
+                ':editado': JSON.stringify(new Date())
             },
             ReturnValues: 'ALL_NEW'
-        }).promise();
-        return { statusCode: 200, body: JSON.stringify({ mensaje: `Empleado ${id} se actualizo` }) };
-    } catch (error) {
-        console.log(error);
-        return { statusCode: 401, body: { error } };
-    }
+        }).promise();  // Edita Empleado
+        response = { statusCode: 200, body: JSON.stringify({ mensaje: `Empleado ${id} se actualizo` }) };
+    } catch (error) { console.log(error); }
+    callback(null, response); // Devuelve al empleado en el callback
 }
 
-module.exports = {
-    editarEmpleado
-};
+module.exports = { editarEmpleadoLambda };

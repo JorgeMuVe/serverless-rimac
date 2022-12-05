@@ -1,10 +1,15 @@
 const AWS = require('aws-sdk');
 
-const eliminarPersona = async (event) => {
+/**
+ * @description Funcion Lambda para eliminar Persona
+ * @returns Callback con respuesta
+ */
+const eliminarPersonaLambda = async (event, context, callback) => {
     let dynamodb = new AWS.DynamoDB.DocumentClient();
     let { id } = event.pathParameters;
     await dynamodb.delete({ TableName: 'Persona', Key: { id } }).promise();
-    return { statusCode: 200, body: JSON.stringify({ mensaje: `Persona ${id} se elimino` }) };
+    let response = { statusCode: 200, body: JSON.stringify({ mensaje: `Persona ${id} se elimino` }) };
+    callback(null, response);
 }
 
-module.exports = { eliminarPersona };
+module.exports = { eliminarPersonaLambda };

@@ -14,50 +14,6 @@ provider:
       Resource:
         - arn:aws:dynamodb:us-east-1:058154850901:table/Empleado
 
-functions:
-  integPeopleSwapi:
-    handler: src/integration/getPeople.getPeople
-    events:
-      - http:
-          method: get
-          path: /persona/{id}
-  integPlanetSwapi:
-    handler: src/integration/getPlanet.getPlanet
-    events:
-      - http:
-          method: get
-          path: /planeta/{id}
-  crearEmpleado:
-    handler: src/models/empleado/crear.crearEmpleado
-    events:
-      - http:
-          method: post
-          path: /empleado
-  listarEmpleado:
-    handler: src/models/empleado/listar.listarEmpleado
-    events:
-      - http:
-          method: get
-          path: /empleado
-  buscarEmpleado:
-    handler: src/models/empleado/buscar.buscarEmpleado
-    events:
-      - http:
-          method: get
-          path: /empleado/{id}
-  editarEmpleado:
-    handler: src/models/empleado/editar.editarEmpleado
-    events:
-      - http:
-          method: put
-          path: /empleado/{id}
-  eliminarEmpleado:
-    handler: src/models/empleado/eliminar.eliminarEmpleado
-    events:
-      - http:
-          method: delete
-          path: /empleado/{id}          
-
 resources:
   Resources:    
     Empleado:
@@ -71,3 +27,71 @@ resources:
         KeySchema:
           - AttributeName: id
             KeyType: HASH
+
+functions:
+  filmsSwapi:
+    handler: src/integration/getFilms.getFilmsLambda
+    events:
+      - http:
+          method: get
+          path: /peliculas/{id}
+  peopleSwapi:
+    handler: src/integration/getPeople.getPeopleLambda
+    events:
+      - http:
+          method: get
+          path: /personas/{id}
+  planetsSwapi:
+    handler: src/integration/getPlanets.getPlanetsLambda
+    events:
+      - http:
+          method: get
+          path: /planetas/{id}      
+  speciesSwapi:
+    handler: src/integration/getSpecies.getSpeciesLambda
+    events:
+      - http:
+          method: get
+          path: /especies/{id}            
+  starshipsSwapi:
+    handler: src/integration/getStarships.getStarshipsLambda
+    events:
+      - http:
+          method: get
+          path: /naves/{id}
+  vehiclesSwapi:
+    handler: src/integration/getVehicles.getVehiclesLambda
+    events:
+      - http:
+          method: get
+          path: /vehiculos/{id}
+  crearEmpleado:
+    handler: src/models/empleado/crear.crearEmpleadoLambda
+    events:
+      - http:
+          method: post
+          path: /empleados
+  listarEmpleado:
+    handler: src/models/empleado/listar.listarEmpleadoLambda
+    events:
+      - http:
+          method: get
+          path: /empleados
+  buscarEmpleado:
+    handler: src/models/empleado/buscar.buscarEmpleadoLambda
+    events:
+      - http:
+          method: get
+          path: /empleados/{id}
+  editarEmpleado:
+    handler: src/models/empleado/editar.editarEmpleadoLambda
+    events:
+      - http:
+          method: put
+          path: /empleados/{id}
+  eliminarEmpleado:
+    handler: src/models/empleado/eliminar.eliminarEmpleadoLambda
+    events:
+      - http:
+          method: delete
+          path: /empleados/{id}          

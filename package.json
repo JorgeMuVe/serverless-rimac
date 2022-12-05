@@ -2,14 +2,15 @@
   "name": "serverless-rimac",
   "description": "Reto tecnico BACKEND RIMAC",
   "scripts": {
-    "invoke": "sls invoke local -f listarEmpleado",
+    "invokeEmployed": "sls invoke local -f listarEmpleado",
+    "invokePeople": "sls invoke local -f peopleSwapi",
     "deploy": "sls deploy --stage dev --verbose",
     "test": "jest"
   },
   "author": "Jorge Muñiz",
   "dependencies": {
     "aws-sdk": "^2.1265.0",
-    "swapi-node": "^0.7.0",
+    "axios": "^1.2.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

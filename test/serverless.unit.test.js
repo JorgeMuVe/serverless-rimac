@@ -1,9 +1,9 @@
 
-const validators = require('./validators');
-const eventGenerator = require('./eventGenerator');
+const validators = require('./utils/validators');
+const eventGenerator = require('./utils/eventGenerator');
 
 const fncPeople = require('../src/integration/getPeople');
-const fncPlanet = require('../src/integration/getPlanet');
+const fncPlanet = require('../src/integration/getPlanets');
 const fncBuscar = require('../src/models/empleado/buscar');
 const fncCrear = require('../src/models/empleado/crear');
 const fncEditar = require('../src/models/empleado/editar');
@@ -12,39 +12,42 @@ const fncListar = require('../src/models/empleado/listar');
 
 describe('Prueba la existencia de lambdas', () => {
     test('All functions', () => {
-        expect(typeof fncPeople.getPeople).toBe('function');
-        expect(typeof fncPlanet.getPlanet).toBe('function');
-        expect(typeof fncBuscar.buscarEmpleado).toBe('function');
-        expect(typeof fncCrear.crearEmpleado).toBe('function');
-        expect(typeof fncEditar.editarEmpleado).toBe('function');
-        expect(typeof fncEliminar.eliminarEmpleado).toBe('function');
-        expect(typeof fncListar.listarEmpleado).toBe('function');
+        expect(typeof fncPeople.getPeopleLambda).toBe('function');
+        expect(typeof fncPlanet.getPlanetsLambda).toBe('function');
+        expect(typeof fncBuscar.buscarEmpleadoLambda).toBe('function');
+        expect(typeof fncCrear.crearEmpleadoLambda).toBe('function');
+        expect(typeof fncEditar.editarEmpleadoLambda).toBe('function');
+        expect(typeof fncEliminar.eliminarEmpleadoLambda).toBe('function');
+        expect(typeof fncListar.listarEmpleadoLambda).toBe('function');
     });
 });
 
-describe('Prueba el lambda integPeopleSwapi', () => {
+/*describe('Prueba el lambda integPeopleSwapi', () => {
     test('Debe responder con { statusCode, body }', async () => {
         const event = eventGenerator({ pathParametersObject: { id: 1 } });
-        const res = await fncPeople.getPeople(event);
-        expect(res).toBeDefined();
-        expect(validators.isApiGatewayResponse(res)).toEqual(true);
+        await fncPeople.getPeopleLambda(event, null, (error, res) => {
+            expect(res).toBeDefined();
+            expect(validators.isApiGatewayResponse(res)).toEqual(true);
+        });
     });
-});
+});*/
 
 describe('Prueba el lambda integPlanetSwapi', () => {
     test('Debe responder con { statusCode, body }', async () => {
         const event = eventGenerator({ pathParametersObject: { id: 1 } });
-        const res = await fncPlanet.getPlanet(event);
-        expect(res).toBeDefined();
-        expect(validators.isApiGatewayResponse(res)).toEqual(true);
+        await fncPlanet.getPlanetsLambda(event, null, (error, res) => {
+            expect(res).toBeDefined();
+            expect(validators.isApiGatewayResponse(res)).toEqual(true);
+        });
     });
 });
 
 describe('Prueba el lambda listarEmpleado', () => {
     test('Debe responder con { statusCode, body }', async () => {
         const event = eventGenerator({});
-        const res = await fncListar.listarEmpleado(event);
-        expect(res).toBeDefined();
-        expect(validators.isApiGatewayResponse(res)).toEqual(true);
+        await fncListar.listarEmpleadoLambda(event, null, (error, res) => {
+            expect(res).toBeDefined();
+            expect(validators.isApiGatewayResponse(res)).toEqual(true);
+        });
     });
 });

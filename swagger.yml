@@ -20,20 +20,50 @@ tags:
   description: APIs para CRUD de tabla Empleado.
   
 paths:
-  /persona/{id}:
+  /personas/{id}:
     get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
       tags:
       - Integración
       summary: Busca la informacion de una persona.
       responses:
         200:
-          description: Datos del empleado creado.
+          description: Datos de la persona SWAPI
           content:
             application/json:
               schema:
-              $ref: '#/components/schemas/EmpleadoBodyPost'
-  /planeta/{id}:
+                $ref: '#/components/schemas/PersonaBodyGet'
+  /peliculas/{id}:
     get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer    
+      tags:
+      - Integración
+      summary: Busca la informacion de una película.
+      responses:
+        200:
+          description: Datos de la película SWAPI.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PeliculaBodyGet'                
+  /planetas/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer    
       tags:
       - Integración
       summary: Busca la informacion de un planeta.
@@ -43,8 +73,63 @@ paths:
           content:
             application/json:
               schema:
-              $ref: '#/components/schemas/EmpleadoBodyPost'
-  /empleado:
+                $ref: '#/components/schemas/PlanetaBodyGet'
+  /especies/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer    
+      tags:
+      - Integración
+      summary: Busca la informacion de una especie.
+      responses:
+        200:
+          description: Datos de la especie SWAPI.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EspecieBodyGet'                  
+  /naves/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer    
+      tags:
+      - Integración
+      summary: Busca la informacion de una nave.
+      responses:
+        200:
+          description: Datos de la nave SWAPI.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NaveBodyGet'                  
+  /vehiculos/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer    
+      tags:
+      - Integración
+      summary: Busca la informacion de un vehículo.
+      responses:
+        200:
+          description: Datos del vehículo SWAPI.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehiculoBodyGet'                  
+  
+  /empleados:
     get:
       tags:
       - DynamoDB
@@ -55,7 +140,9 @@ paths:
           content:
             application/json:
               schema:
-              $ref: '#/components/responses/ListaEmpleados'
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmpleadoBodyGet'
         400:
           $ref: '#/components/responses/BadRequest'
     post:
@@ -74,12 +161,18 @@ paths:
           content:
             application/json:
               schema:
-              $ref: '#/components/schemas/EmpleadoBodyPost'
+                $ref: '#/components/schemas/EmpleadoBodyPost'
         400:
           $ref: '#/components/responses/BadRequest'
           
-  /empleado/{id}:
+  /empleados/{id}:
     get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string    
       tags:
       - DynamoDB
       summary: Busca la informacion de un empleado.
@@ -89,8 +182,14 @@ paths:
           content:
             application/json:
               schema:
-              $ref: '#/components/schemas/EmpleadoBodyPost'
+                $ref: '#/components/schemas/EmpleadoBodyGet'
     put:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
       tags:
       - DynamoDB
       summary: Editar empleado con la información enviada.
@@ -106,10 +205,16 @@ paths:
           content:
             application/json:
               schema:
-              $ref: '#/components/schemas/EmpleadoBodyPost'
+                $ref: '#/components/schemas/EmpleadoBodyPost'
         400:
           $ref: '#/components/responses/BadRequest'
     delete:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
       tags:
       - DynamoDB
       summary: Elimina la informacion de un empleado.
@@ -119,40 +224,292 @@ paths:
           content:
             application/json:
               schema:
-              $ref: '#/components/schemas/EmpleadoBodyPost'          
+                $ref: '#/components/schemas/EmpleadoBodyPost'          
       
       
 components:
   responses:
-    ListaEmpleados:
-      type: array
-      items:
-        $ref: '#/components/schemas/EmpleadoBodyPost'
     BadRequest:
       description: (BadRequest) Datos incorrectos.
-      
-  parameters:
-    id:
-      in: url
-      description: id de persona
-      required: true
     
   schemas:
+    RespuestaLambda:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        body:
+          type: string
+    EmpleadoBodyGet:
+      type: object
+      properties:
+        id:
+          type: string
+        nombres:
+          type: string
+        dni:
+          type: string
+        profesion:
+          type: string
+        experiencia:
+          type: string
+        editado:
+          type: string
+        creado:
+          type: string
     EmpleadoBodyPost:
       type: object
       properties:
         id:
           type: string
-          descripcion: Id de empleado
+          description: Id de empleado
         dni:
           type: string
-          descripcion: Documento de indentidad
+          description: Documento de indentidad
         nombres:
           type: string
-          descripcion: Nombres y apellidos del empleado
+          description: Nombres y apellidos del empleado
         profesion:
           type: string
-          descripcion: Profesion del empleado
+          description: Profesion del empleado
         experiencia:
           type: string
-          descripcion: Experiencia profesional del empleado
+          description: Experiencia profesional del empleado
+    PersonaBodyGet:
+      type: object
+      properties:
+        nombre:
+          type: string
+        altura:
+          type: string
+        peso:
+          type: string
+        color_cabello:
+          type: string
+        color_piel:
+          type: string
+        color_ojos:
+          type: string
+        fecha_nacimiento:
+          type: string
+        genero:
+          type: string
+        planeta_natal:
+          type: string
+        peliculas:
+          type: array
+          items:
+            type: string
+        especies:
+          type: array
+          items:
+            type: string          
+        vehiculos:
+          type: array
+          items:
+            type: string          
+        naves:
+          type: array
+          items:
+            type: string          
+        creado:
+          type: string
+        editado:
+          type: string
+        url:
+          type: string      
+    PeliculaBodyGet:
+      type: object
+      properties:          
+        titulo:
+          type: string
+        id_episodio:
+          type: string
+        texto_apertura:
+          type: string
+        director:
+          type: string
+        productor:
+          type: string
+        fecha_lanzamiento:
+          type: string
+        personas:
+          type: array
+          items:
+            type: string   
+        planetas:
+          type: array
+          items:
+            type: string   
+        naves:
+          type: array
+          items:
+            type: string   
+        vehiculos:
+          type: array
+          items:
+            type: string   
+        especies:
+          type: array
+          items:
+            type: string   
+        creado:
+          type: string
+        editado:
+          type: string
+        url:
+          type: string        
+    PlanetaBodyGet:
+      type: object
+      properties: 
+        nombre:
+          type: string
+        clima:
+          type: string
+        gravedad:
+          type: string
+        diametro:
+          type: string
+        periodo_orbital:
+          type: string
+        periodo_rotacion:
+          type: string
+        poblacion:
+          type: string
+        residentes:
+          type: array
+          items:
+            type: string 
+        peliculas:
+          type: array
+          items:
+            type: string 
+        superficie_agua:
+          type: string
+        terreno:
+          type: string
+        url:
+          type: string
+        creado:
+          type: string
+        editado:
+          type: string
+    EspecieBodyGet:
+      type: object
+      properties: 
+        nombre:
+          type: string
+        clasificacion:
+          type: string
+        designacion:
+          type: string
+        altura_media:
+          type: string
+        color_piel:
+          type: string
+        color_cabello:
+          type: string
+        color_ojos:
+          type: string
+        promedio_vida:
+          type: string
+        planeta:
+          type: string
+        idioma:
+          type: string
+        personas:
+          type: array
+          items:
+            type: string 
+        peliculas:
+          type: array
+          items:
+            type: string 
+        creado:
+          type: string
+        editado:
+          type: string
+        url:
+          type: string         
+    NaveBodyGet:
+      type: object
+      properties: 
+        nombre:
+          type: string
+        modelo:
+          type: string
+        fabricante:
+          type: string
+        costo_en_creditos:
+          type: string
+        longitud:
+          type: string
+        velocidad_maxima_admosfera:
+          type: string
+        tripulacion:
+          type: string
+        pasajeros:
+          type: string
+        capacidad_carga:
+          type: string
+        consumibles:
+          type: string
+        hiperimpulsor_calificacion:
+          type: string
+        MGLT:
+          type: string
+        clase_nave:
+          type: string
+        pilotos:
+          type: array
+          items:
+            type: string 
+        peliculas:
+          type: array
+          items:
+            type: string 
+        creado:
+          type: string
+        editado:
+          type: string
+        url:
+          type: string        
+    VehiculoBodyGet:
+      type: object
+      properties: 
+        nombre:
+          type: string
+        modelo:
+          type: string
+        fabricante:
+          type: string
+        costo_en_creditos:
+          type: string
+        longitud:
+          type: string
+        velocidad_maxima_admosfera:
+          type: string
+        tripulacion:
+          type: string
+        pasajeros:
+          type: string
+        capacidad_carga:
+          type: string
+        consumibles:
+          type: string
+        clase_vehiculo:
+          type: string
+        pilotos:
+          type: array
+          items:
+            type: string  
+        peliculas:
+          type: array
+          items:
+            type: string  
+        creado:
+          type: string
+        editado:
+          type: string
+        url:
+          type: string                   
