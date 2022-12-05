@@ -45,6 +45,10 @@ Puede clonar el repositorio y probarlo localmente, para esto debería seguir:
     ```bash
     npm run invokePeople
 
+- Para ejecutar las pruebas unitarias.
+    ```bash
+    npm run test 
+
 ## APIS
 
 Los endpoints se documento con Open Api 3.0.3 - Swagger.
