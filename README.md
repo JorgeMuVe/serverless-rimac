@@ -18,6 +18,22 @@ La integración SWAPI con mayor complejidad es la de Personas(People).
     ```bash
     npm install
 
+- Puedes crear un usuario IAM en la consola de AWS,
+al crear el usuario se le entregada `NOMBRE_USUARIO`, `ACCES_KEY_ID` y `SECRET_ACCES_KEY`.
+
+- Una vez tenga las credenciales ejecute el siguiente comando.
+
+    ```bash
+    serverless config credentials \
+    --provider aws \
+    --key `ACCES_KEY_ID` \
+    --secret `SECRET_ACCES_KEY` \
+    --profile `NOMBRE_USUARIO`  
+
+- Para desplegar el proyecto necesitas ejecutar el siguiente comando.
+    ```bash
+    npm run deploy
+
 ## Cómo se usa
 
 Puede clonar el repositorio y probarlo localmente, para esto debería seguir:
